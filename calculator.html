@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>My first Vue app</title>
+	<script src="https://unpkg.com/vue"></script>
+	<link rel="stylesheet" href="agent.css">
+</head>
+
+<body>
+	<div id="app" v-cloak>
+		<div id="calculator">
+			<div class="screen-container">
+				<div class="result">
+					<transition name="slide-fade">
+						<div class="number" :style="{fontSize : fontSize + 'px'}" v-if="tempResult !== ''" v-cloak>{{ tempResult | number
+							| hugeNumber }}</div>
+					</transition>
+				</div>
+				<div class="calculation">
+					<div class="number" v-cloak>{{ calculation | number | format}}</div>
+				</div>
+			</div>
+			<div class="btn-container">
+				<div class="oper-container">
+					<div class="btn clear" @click="clear()">
+						<div class="number">AC</div>
+					</div>
+					<num-btn
+						v-for="(symb, i) in ['/', '*', '+', '-']"
+						:num=symb
+						:css_class="'operations '+ ['divide', 'multiplication', 'plus', 'less'][i]"
+						@append="append"
+					></num-btn>
+					
+				</div>
+
+				<div :class="['row'][0]" v-for="row in [
+					{ nums: [7, 8, 9] },
+					{ nums: [4, 5, 6] },
+					{ nums: [1, 2, 3] } 
+				]">
+					<num-btn
+						v-for="num in row.nums"
+						:num=num
+						@append="append"
+					></num-btn>
+				</div>
+	
+				<div class="row">
+					<div class="btn dot" @click="append('.')">
+						<div class="number">.</div>
+					</div>
+					<div class="btn" @click="append('0')">
+						<div class="number">0</div>
+					</div>
+					<div class="btn">
+						<div class="number"></div>
+					</div>
+					<div class="btn getans" @click="getResult()">
+						<div class="number">=</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="app.js"></script>
+
+</body>
+
+</html>
